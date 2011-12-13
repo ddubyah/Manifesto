@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec", "~> 2.7.0"  
   s.add_development_dependency "cucumber", "~> 1.1.4"
   s.add_development_dependency "guard-cucumber", "~> 0.7.4"
+  s.add_development_dependency "aruba", "~> 0.4.9"
 
 	if RUBY_PLATFORM.downcase.include?("darwin")		
 		s.add_development_dependency "guard-rspec"  

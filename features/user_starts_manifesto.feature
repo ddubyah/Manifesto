@@ -6,9 +6,8 @@ Feature: User Starts Manifesto
 
 	Scenario: Start manifesto with no parameters
 		Given Manifesto is not yet running
-		When I run "manifesto" at the command line
-		Then I should see "Manifesto"
-		And I should see "See --help for instructions"
+		When I run `manifesto`
+		Then the output should contain "Bummer"
 
 	  
 	

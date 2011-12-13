@@ -1,4 +1,4 @@
-require "Elf_Manifesto/version"
+require "elf_manifesto/version"
 
 module ElfManifesto
   # Your code goes here...

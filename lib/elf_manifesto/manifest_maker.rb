@@ -21,7 +21,8 @@ module ElfManifesto
         message = "#{message}\nGroup #{pos} '#{name} (#{group[:path]})' -> [ #{group[:files].join(', ')} ]"
         pos+=1
       end
-      puts "#{message}\n"
+      puts "#{message}\n\n\n"
+      puts @result
     end
 
 		private

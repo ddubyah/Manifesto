@@ -18,7 +18,6 @@ module ElfManifesto
       end
       puts "#{message}\n"
     end
-    
 
 		private
  		# get_file_groups
@@ -34,8 +33,6 @@ module ElfManifesto
  			end
  			file_groups
  		end
-    
-    
-    
+ 
   end
 end

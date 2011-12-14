@@ -36,5 +36,7 @@ Gem::Specification.new do |s|
 	end
 	
 	s.add_runtime_dependency "commander", "~> 4.0.6"
+	s.add_runtime_dependency "mustache", "~> 0.99.4"
+	
 
 end

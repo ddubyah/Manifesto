@@ -13,8 +13,9 @@ command :create do |c|
   c.summary = 'creates a manifest file'
   c.description = 'Create a manifest from file collections and a template'
   c.example 'Create a manifest from template.mustache and the jpgs in the images directory', "manifesto --template template.mustache --output images.json 'images/*.jpg'"
-  c.option '-p', '--template STRING', String, 'Template file'
+  c.option '-m', '--template STRING', String, 'Template file'
 	c.option '-o', '--output_file STRING', String, 'Target for manifest output'
+	c.option '-p', '--props STRING', String, 'Property hash'
 
   c.action do |args, options|
     # Do something or c.when_called Manifesto::Commands::Create
@@ -26,7 +27,9 @@ Use --help to find out how
 					MESSAGE
 		else
 			# puts "Creating a manifesto from #{options.template} and #{args}"
-			manifesto = ElfManifesto::ManifestMaker.new(options.template, options.output_file, args)
+			message = ""
+			message += "Creating #{options.output_file} from #{options.template} with:" unless options.output_file.nil?
+			manifesto = ElfManifesto::ManifestMaker.new(options.template, args)
 			
 		end
   end

@@ -3,18 +3,33 @@
 require 'rubygems'
 require 'commander/import'
 require 'elf_manifesto'
+require 'elf_manifesto/manifest_maker'
 
 program :version, ElfManifesto::VERSION
 program :description, 'Creates file manifests from file collections and mustache templates'
  
 command :create do |c|
   c.syntax = 'manifesto create [options]'
-  c.summary = ''
-  c.description = ''
-  c.example 'description', 'command example'
-  c.option '--some-switch', 'Some switch that does something'
+  c.summary = 'creates a manifest file'
+  c.description = 'Create a manifest from file collections and a template'
+  c.example 'Create a manifest from template.mustache and the jpgs in the images directory', "manifesto --template template.mustache --output images.json 'images/*.jpg'"
+  c.option '-p', '--template STRING', String, 'Template file'
+	c.option '-o', '--output_file STRING', String, 'Target for manifest output'
+
   c.action do |args, options|
     # Do something or c.when_called Manifesto::Commands::Create
+		if (options.template.nil? || args.empty?)
+			say <<-MESSAGE
+Manifesto! throw me a frickin' bone here!
+I need some parameters
+Use --help to find out how
+					MESSAGE
+		else
+			# puts "Creating a manifesto from #{options.template} and #{args}"
+			manifesto = ElfManifesto::ManifestMaker.new(options.template, options.output_file, args)
+			
+		end
   end
 end
 
+default_command :create

@@ -15,11 +15,11 @@ module ElfManifesto
       @result = Mustache.render @template, @file_groups
       message = ""
       pos = 1
-      # @file_groups.each do |name, group|
-      #   message = "#{message}\nGroup #{pos} '#{name} (#{group[:path]})' -> [ #{group[:files].join(', ')} ]"
-      #   pos+=1
-      # end
-      puts "#{@result}"
+      @file_groups.each do |name, group|
+        message = "#{message}\nGroup #{pos} '#{name} (#{group[:path]})' -> [ #{group[:files].join(', ')} ]"
+        pos+=1
+      end
+      puts "#{message}\n"
     end
 
 		private

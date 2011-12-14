@@ -1,3 +1,5 @@
+require 'mustache'
+
 module ElfManifesto
   
   class ManifestMaker

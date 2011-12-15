@@ -12,7 +12,9 @@ command :create do |c|
   c.syntax = 'manifesto create [options]'
   c.summary = 'creates a manifest file'
   c.description = 'Create a manifest from file collections and a template'
-  c.example 'Create a manifest from template.mustache and the jpgs in the images directory', "manifesto --template template.mustache --output images.json 'images/*.jpg'"
+  c.example 'Create a manifest from template.mustache and the jpgs in the images directory', "manifesto --template template.mustache 'images/*.jpg'"
+  c.example 'Pass arbitrary properties to be used in the template', "manifesto --template template.mustache --properties '{ id: 1234 }' images/*.jpg'"
+
   c.option '-m', '--template STRING', String, 'Template file'
 	c.option '-o', '--output_file STRING', String, 'Target for manifest output'
 	c.option '-p', '--properties STRING', String, 'Property hash'

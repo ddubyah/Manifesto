@@ -31,7 +31,18 @@ The manifest is output to the console, so you can save it by copying or directin
 > manifesto create template_file.mustache '*.*' '*.jpg' 'pages/*.html' > manifest.json
 
 will render the template and save it in manifest.json.
+
+---
+
+## Passing Arbitrary Properties ##
+
+Use the --properties or -p switch to pass in a string to be evaluated as a property hash
  
+> manifesto create template_file.mustache -p "{ :name => 'foo', :surname => 'bar' }" '*.*' '*.jpg' 'pages/*.html'
+
+will make the {{props.name}} and {{props.surname}} available in the template. (N.B. Ruby syntax for the hash)
+
+
 ---
 
 # TODO #
@@ -39,7 +50,6 @@ will render the template and save it in manifest.json.
 *	Define output file path to save result
 *	Supply sample templates
 *	Support registration of new templates
-*	Support arbitrary properties
 *	Add some simple template helpers
 	*	GUID creator
 

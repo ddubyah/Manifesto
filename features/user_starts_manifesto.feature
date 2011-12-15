@@ -48,6 +48,7 @@ Feature: User Starts Manifesto
 		| '*.*'   | file1.txt file2 | 
 		| '*.*'   | group1 (*.*)    | 
 		| '*.png' | file4           | 
+		| '*.png' | (*.png)         | 
 		| '*.jpg' | file2.jpg       | 
 		| '*.jpg' | file3.jpg       | 
 		

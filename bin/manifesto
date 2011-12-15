@@ -15,7 +15,8 @@ command :create do |c|
   c.example 'Create a manifest from template.mustache and the jpgs in the images directory', "manifesto --template template.mustache --output images.json 'images/*.jpg'"
   c.option '-m', '--template STRING', String, 'Template file'
 	c.option '-o', '--output_file STRING', String, 'Target for manifest output'
-	c.option '-p', '--props STRING', String, 'Property hash'
+	c.option '-p', '--properties STRING', String, 'Property hash'
+	
 
   c.action do |args, options|
     # Do something or c.when_called Manifesto::Commands::Create
@@ -29,8 +30,17 @@ Use --help to find out how
 			# puts "Creating a manifesto from #{options.template} and #{args}"
 			message = ""
 			message += "Creating #{options.output_file} from #{options.template} with:" unless options.output_file.nil?
-			manifesto = ElfManifesto::ManifestMaker.new(options.template, args)
 			
+			props = {}
+			props = eval(options.properties) unless options.properties.nil?
+			
+			ops = {
+				template: options.template,
+				globs: args,
+				props: props
+			}
+			
+			manifesto = ElfManifesto::ManifestMaker.new(ops)
 		end
   end
 end

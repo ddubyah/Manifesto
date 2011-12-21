@@ -8,7 +8,7 @@ Feature: Using built-in Templates
 	  Given a library of templates: simple.mustache scorm.tmp simple.tmp example.tmp
 		When I run `manifesto list templates`
 		Then the output should contain "Available Templates:"
-		And the output should contain "lib/templates" 
+		And the output should not contain "lib/templates" 
 		And the output should contain "scorm.tmp"
 		And the output should contain "simple.tmp"
 		And the output should contain "example.tmp"
@@ -17,7 +17,7 @@ Feature: Using built-in Templates
 		Given a library of templates: simple.mustache scorm.tmp simple.tmp example.tmp
 		When I run `manifesto list`
 		Then the output should contain "Available Templates:"
-		And the output should contain "lib/templates" 
+		And the output should not contain "lib/templates" 
 		And the output should contain "scorm.tmp"
 		And the output should contain "simple.tmp"
 		And the output should contain "example.tmp"

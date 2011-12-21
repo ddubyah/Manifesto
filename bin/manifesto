@@ -71,8 +71,10 @@ command "list templates" do |c|
   c.action do |args, options|
 		path_to_templates = File.expand_path('../lib/templates', File.dirname(__FILE__)) # absolute path to the templates directory relative to this file. 
 		puts "Available Templates:"
-		puts Dir.pwd
-		puts Dir.glob(File.join path_to_templates, '**', '*' )
+		templates = Dir.glob(File.join path_to_templates, '**', '*.*' )
+		templates.each do |template|
+			puts File.basename template
+		end
     # Do something or c.when_called Tmp::Commands::List
   end
 

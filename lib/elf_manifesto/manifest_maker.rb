@@ -27,7 +27,7 @@ module ElfManifesto
       @result = Mustache.render @template, @file_groups
       message = ""
       pos = 1
-      puts "#{message}\n\n\n"
+      # puts "#{message}\n\n\n"
       puts @result
     end
 

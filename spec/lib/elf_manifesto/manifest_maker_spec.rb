@@ -1,3 +1,4 @@
+require 'spec_helper'
 require "elf_manifesto/manifest_maker"
 require 'mustache'
 

@@ -8,6 +8,7 @@ require 'elf_manifesto/manifest_maker'
 program :version, ElfManifesto::VERSION
 program :description, 'Creates file manifests from file collections and mustache templates'
  
+# 
 command :create do |c|
   c.syntax = 'manifesto create [options]'
   c.summary = 'creates a manifest file'
@@ -18,26 +19,40 @@ command :create do |c|
   c.option '-m', '--template STRING', String, 'Template file'
 	c.option '-o', '--output_file STRING', String, 'Target for manifest output'
 	c.option '-p', '--properties STRING', String, 'Property hash'
+	c.option '-s', '--sample_template STRING', String, 'Name of a supplied template'
 	
 
   c.action do |args, options|
     # Do something or c.when_called Manifesto::Commands::Create
-		if (options.template.nil? || args.empty?)
+		if ((options.template.nil? && options.sample_template.nil?) || args.empty?)
 			say <<-MESSAGE
 Manifesto! throw me a frickin' bone here!
 I need some parameters
 Use --help to find out how
 					MESSAGE
 		else
-			# puts "Creating a manifesto from #{options.template} and #{args}"
+			# Select a template file TODO - Logic needs refactor
+			if options.template.nil?
+				requested_template = options.sample_template
+				template = get_sample_template options.sample_template 
+			else
+				requested_template = options.template
+				template = options.template
+			end
+			
 			message = ""
-			message += "Creating #{options.output_file} from #{options.template} with:" unless options.output_file.nil?
+			message += "Creating manifest from #{template} with:" unless options.output_file.nil?
+			
+ 			# test for a valid templates
+			if template.nil? || !File.exists?(template)
+				raise "Bad template selection: #{requested_template}"
+			end
 			
 			props = {}
 			props = eval(options.properties) unless options.properties.nil?
 			
 			ops = {
-				template: options.template,
+				template: template,
 				globs: args,
 				props: props
 			}
@@ -47,4 +62,49 @@ Use --help to find out how
   end
 end
 
+command "list templates" do |c|
+  c.syntax = 'list templates'
+  c.summary = 'Lists the built in templates available'
+  c.description = ''
+  c.example 'List all build in templates', 'manifesto list templates'
+  # c.option '--some-switch', 'Some switch that does something'
+  c.action do |args, options|
+		path_to_templates = File.expand_path('../lib/templates', File.dirname(__FILE__)) # absolute path to the templates directory relative to this file. 
+		puts "Available Templates:"
+		puts Dir.pwd
+		puts Dir.glob(File.join path_to_templates, '**', '*' )
+    # Do something or c.when_called Tmp::Commands::List
+  end
+
+	command "show template" do |c|
+	  c.syntax = 'show template |template name|'
+	  c.summary = 'Shows the contents of a built in template'
+	  c.description = ''
+	  c.example 'Show the contents of the imsmanifest.mustache template', 'manifesto show template imsmanifest'
+	  # c.option '--some-switch', 'Some switch that does something'
+	  c.action do |args, options|
+			path_to_templates = File.expand_path('../lib/templates', File.dirname(__FILE__)) # absolute path to the templates directory relative to this file. 
+			template = get_sample_template(args.first)
+			if template.nil?
+				raise "Template does not exist: #{args.first}"
+			end
+			template_file = File.open(template, "rb")
+			puts template_file.read
+	  end
+	end
+end
+
 default_command :create
+alias_command :list, :'list templates'
+alias_command :show, :'show template'
+
+
+private
+
+def get_sample_template template_name
+	templates_path = File.expand_path( '../lib/templates', File.dirname(__FILE__))
+	templates_files = Dir.glob(File.join(templates_path, '**','*.*'))
+	selected_template = templates_files.select do |file|
+		File.basename(file) =~ /#{template_name}/i
+	end.first
+end

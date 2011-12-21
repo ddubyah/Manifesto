@@ -4,15 +4,21 @@ module ElfManifesto
   
   class ManifestMaker
     
-    attr_reader :file_groups, :result
-    
-    # ManifestMaker Constructor
-    #
-    # * *Args*    :
-    # options - +Hash+ -> Hash of options
-    #   :template +String+ -> template file to load
-    #   :properties +Hash+ -> arbitrary properties to supply to template
-    #   :globs +Array+ -> list of file globs to evaluate
+    attr_reader :file_groups, :result 
+    # *Args*
+    # * ops:: +Hash+ -> Hash of options
+		# 	
+		# 		ops = { 
+		# 			template: 'path/to/template.file',
+		# 			properties: { prop1: 'foobar' },
+		# 			globs: ['*.*', '*.jpg'], 	
+		# 		}
+		#
+		# 		ElfManifesto::ManifestMaker.new(ops)
+		# 	
+    # 	[+template+] +String+ -> template file to load
+    # 	[+properties+] +Hash+ -> arbitrary properties to supply to template
+    # 	[+globs+] +Array+ -> list of file globs to evaluate
     def initialize(ops)
       @file_groups = get_file_groups(ops[:globs]) # evaluate the globs and create the file groups
       @file_groups[:props] = ops[:props] unless ops[:props].nil?
@@ -21,16 +27,14 @@ module ElfManifesto
       @result = Mustache.render @template, @file_groups
       message = ""
       pos = 1
-      # @file_groups.each do |name, group|
-      #   message = "#{message}\nGroup #{pos} '#{name} (#{group[:path]})' -> [ #{group[:files].join(', ')} ]"
-      #   pos+=1
-      # end
       puts "#{message}\n\n\n"
       puts @result
     end
 
 		private
  		# get_file_groups
+		# Evaluate the globs array and populate the file_groups object.
+		# It's the file_groups object that is used to populate the template.
  		#
  		# * *Args*    :
  		#  globs - +Array+ -> list of strings to use as file searches

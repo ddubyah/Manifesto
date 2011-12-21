@@ -1,4 +1,4 @@
-Feature: User Starts Manifesto
+Feature: Create a Manifest
 
   As a User
   I want start manifesto from the command line

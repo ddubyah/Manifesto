@@ -1,0 +1,51 @@
+<manifest identifier="{{props.identifier}}" version="1.0" xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd" xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3" xmlns:adlseq="http://www.adlnet.org/xsd/adlseq_v1p3" xmlns:adlnav="http://www.adlnet.org/xsd/adlnav_v1p3" xmlns:imsss="http://www.imsglobal.org/xsd/imsss" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>2004 3rd Edition</schemaversion>
+  </metadata>
+  <organizations default="{{props.course_id}}">
+    <organization identifier="{{props.course_id}}">
+      <title>{Course Name} </title>
+	  <!-- identifier is a guid --> <!-- identifierref is "sco_" + guid -->
+      <item identifier="{{props.id_guid}}" identifierref="sco_{{props.id_guid}}">
+        <title>{Module Name}</title>
+        <imsss:sequencing>
+			<imsss:objectives>
+				<imsss:primaryObjective objectiveID="PRIMOBJ" satisfiedByMeasure="true">
+					<imsss:minNormalizedMeasure>{currently we don't change this as all packages so far have had a pass mark of 70% so always 0.7</imsss:minNormalizedMeasure>
+				</imsss:primaryObjective>
+			</imsss:objectives>
+			<imsss:deliveryControls completionSetByContent="true" objectiveSetByContent="true" />
+		</imsss:sequencing>
+      </item>
+	  <imsss:sequencing>
+		  <imsss:controlMode choiceExit="true" flow="true" />
+	  </imsss:sequencing>
+    </organization>
+  </organizations>
+  <resources>
+	<!-- identifier is "sco_" + guid (used on line10) -->
+    <resource identifier="sco_{{props.id_guid}}" adlcp:scormType="sco" href="index.html" type="webcontent">
+		<!-- include reference to the SC O file itself -->
+		<file href="index.html" />
+		<!-- group1: page files here. glob example "learning_objects/**/*.html" -->
+		{{#group1.files}}
+		<file href="{{.}}" />
+		{{/group1.files}}
+      <dependency identifierref="ASSETS" />
+	  <dependency identifierref="THINQI_SYS" />
+    </resource>
+	<resource identifier="ASSETS" type="webcontent" adlcp:scormType="asset">
+		<!-- group2: List all assets used in package. glob "example assets*/**/*.* "-->
+		{{#group2.files}}
+		<file href="{{.}}" />
+		{{/group2.files}}
+    </resource>
+    <resource identifier="THINQI_SYS" type="webcontent" adlcp:scormType="asset">
+		<!-- group3: List all CI/Framework files here. glob example "js/**/*.*"-->
+		{{#group3.files}}
+		<file href="{{.}}" />
+		{{/group3.files}}
+    </resource>
+  </resources>
+</manifest>

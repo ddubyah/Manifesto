@@ -3,4 +3,4 @@
 Gemfile.lock
 pkg/*
 tmp/*
-Elf_Manifesto/lib/templates/tmp/*
+lib/templates/tmp/*

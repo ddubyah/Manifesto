@@ -20,7 +20,7 @@ Feature: Using a config file with manifesto
 		}
 		"""
 		And a library of templates: simple.mustache
-	  When I run `manifesto -c manifesto.config '*.*'`
+	  When I run `manifesto -c manifesto.config`
 	  Then the output should contain "group1"
 		And the output should contain "sco_name"
 		And the output should contain "Module 6"

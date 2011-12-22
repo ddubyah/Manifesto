@@ -25,9 +25,8 @@ command :create do |c|
 	
 
   c.action do |args, options|
-    # Do something or c.when_called Manifesto::Commands::Create
-		# puts "Config = #{options.config_file.nil? && options.sample_template.nil? && options.template.nil?}"
-		if ((options.config_file.nil? && options.sample_template.nil? && options.template.nil?) || args.empty?)
+    # TODO - This logic is horrible. Refactor
+		if ((options.sample_template.nil? && options.template.nil? && options.config_file.nil?) || (args.empty? && options.config_file.nil?))
 			say <<-MESSAGE
 Manifesto! throw me a frickin' bone here!
 I need some parameters

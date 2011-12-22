@@ -72,7 +72,7 @@ To use a built in template use the -s switch with the template name
 
 or just prefix the template name with an underscore
 
-`manifesto -m ims "*.*"`
+`manifesto -m _ims "*.*"`
 
 ---
 ## Using config files ##

@@ -63,6 +63,15 @@ Feature: Using built-in Templates
 		| command                         | result                       | 
 		| manifesto --template duff '*.*' | Bad template selection: duff | 
 		
+	Scenario: using an '_' prefix in the template name to load a built in template
+	  Given a library of templates: tester.mustache
+		And a collection of files: page1.html page2.html page3.html
+		When I run `manifesto --template _tester '**/*.html'`
+		Then the output should contain "group1 (**/*.html):"
+	
+	
+	
+		
 		
 		
 

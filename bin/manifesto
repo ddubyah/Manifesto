@@ -4,6 +4,7 @@ require 'rubygems'
 require 'commander/import'
 require 'elf_manifesto'
 require 'elf_manifesto/manifest_maker'
+require 'ostruct'
 
 program :version, ElfManifesto::VERSION
 program :description, 'Creates file manifests from file collections and mustache templates'
@@ -20,25 +21,28 @@ command :create do |c|
 	c.option '-o', '--output_file STRING', String, 'Target for manifest output'
 	c.option '-p', '--properties STRING', String, 'Property hash'
 	c.option '-s', '--sample_template STRING', String, 'Name of a supplied template'
+	c.option '-c', '--config_file STRING', String, 'Path to a config file. Overrides any other options'
 	
 
   c.action do |args, options|
     # Do something or c.when_called Manifesto::Commands::Create
-		if ((options.template.nil? && options.sample_template.nil?) || args.empty?)
+		# puts "Config = #{options.config_file.nil? && options.sample_template.nil? && options.template.nil?}"
+		if ((options.config_file.nil? && options.sample_template.nil? && options.template.nil?) || args.empty?)
 			say <<-MESSAGE
 Manifesto! throw me a frickin' bone here!
 I need some parameters
 Use --help to find out how
 					MESSAGE
+		elsif !(options.config_file.nil?)
+			config_file = File.open(options.config_file, 'rb')
+			config_options = eval(config_file.read)
+			# n.b. uses OpenStruct to treat hashes as dot notation
+			config_options[:template] = get_template_path OpenStruct.new config_options
+			manifesto = ElfManifesto::ManifestMaker.new(config_options)
 		else
-			# Select a template file TODO - Logic needs refactor
-			if options.template.nil?
-				requested_template = options.sample_template
-				template = get_sample_template options.sample_template 
-			else
-				requested_template = options.template
-				template = options.template
-			end
+			# Select a template file 
+			template = get_template_path options
+			requested_template = options.template || options.sample_template
 			
 			message = ""
 			message += "Creating manifest from #{template} with:" unless options.output_file.nil?
@@ -103,10 +107,26 @@ alias_command :show, :'show template'
 
 private
 
+def get_template_path options
+	if options.template.nil?
+		template = get_sample_template options.sample_template 
+	else
+		# test for an underscore prefix, which denotes a built-in template
+		if options.template =~ /^_/i
+			template = get_sample_template options.template
+		else
+			template = options.template
+		end
+	end
+	template	
+end
+
 def get_sample_template template_name
+	# strip any _ prefix
+	target = template_name.sub('_','')
 	templates_path = File.expand_path( '../lib/templates', File.dirname(__FILE__))
 	templates_files = Dir.glob(File.join(templates_path, '**','*.*'))
 	selected_template = templates_files.select do |file|
-		File.basename(file) =~ /#{template_name}/i
+		File.basename(file) =~ /#{target}/i
 	end.first
 end

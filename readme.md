@@ -2,6 +2,11 @@
 
 A gem for creating file manifests from Mustache templates
 
+## Change Log ##
+
+V1.1.0
+* File paths are URI escaped. Raw paths stored in files_raw collection for each file group.
+
 ## Usage ##
 
 Run from the command line. Provide a template file and pass in a number of file globs ("*.jpg", or "images/*.*" for example). Each file collection returned from the each glob will be used to populate the given template. 

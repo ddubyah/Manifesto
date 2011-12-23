@@ -95,8 +95,8 @@ Feature: Create a Manifest
 		
 		Scenarios: Escaped paths
 	 | results          |
-	 | path%2Ffile1.txt |
-	 | path%2Ffile2.jpg |
+	 | path/file1.txt |
+	 | path/file2.jpg |
 	
 		Scenarios: Raw paths
 	 | results        |

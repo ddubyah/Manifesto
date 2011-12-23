@@ -1,5 +1,5 @@
 require 'mustache'
-require 'cgi'
+require 'uri'
 
 module ElfManifesto
   
@@ -50,7 +50,7 @@ module ElfManifesto
         group_name = "group#{pos}"
         files_raw = Dir.glob(glob)
 				files = files_raw.map do |f|
-	      	CGI.escape f
+	      	URI.escape f
         end
         file_group_object = { name: group_name, path: glob, files: files , files_raw: files_raw}
         file_groups[group_name.to_sym] = file_group_object

@@ -5,8 +5,8 @@ require 'mustache'
 all_files = ['file1.txt', 'file2.', 'file3.txt', 'image1.jpg', 'image2.jpg']
 image_files = ['image1.jpg', 'image2.jpg']
 txt_files = ['file1.txt', 'file2.', 'file3.txt']
-deep_files = ['path/image1.jpg', 'path/image2.jpg']
-deep_files_escaped = ['path%2Fimage1.jpg', 'path%2Fimage2.jpg']
+deep_files = ['path/image1.jpg', 'path/image2.jpg', 'path/to a/image.jpg']
+deep_files_escaped = ['path/image1.jpg', 'path/image2.jpg', 'path/to%20a/image.jpg']
 
 describe "Creating a manifest." do
 	before(:each) do

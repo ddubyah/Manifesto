@@ -1,6 +1,9 @@
 Matched Groups:
 {{#groups}}
-{{name}} ({{path}}): {{#files}}{{.}} {{/files}}
+{{name}} ({{path}}): 
+{{#files}}
+	{{.}}
+{{/files}}
 {{/groups}}
 
 Each file glob passed in creates a new file group. Each group has a name, path and files property. Reference specific file groups by their name which is 'group' followed by the group number. So 'group1' for the first group etc.
@@ -10,6 +13,11 @@ And the files matching it are:
 {{#group1.files}}
 	{{.}}
 {{/group1.files}}
+
+For the raw (unescaped paths)
+{{#group1.files_raw}}
+	{{.}}
+{{/group1.files_raw}}
 
 {{#props}}Properties{{/props}}
 {{props}}

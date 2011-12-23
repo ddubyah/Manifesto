@@ -24,12 +24,12 @@ Feature: Create a Manifest
 		Then the output should contain "<results>"
 		
 		Scenarios: Single globs 
-		| globs   | results          | 
-		| '*.*'   | file1.txt\nfile2 | 
-		| '*.*'   | Group1: (*.*)    | 
-		| '*.png' | file4            | 
-		| '*.jpg' | file2.jpg        | 
-		| '*.jpg' | file3.jpg        | 
+	 | globs   | results          |
+	 | '*.*'   | file1.txt\nfile2 |
+	 | '*.*'   | Group1: (*.*)    |
+	 | '*.png' | file4            |
+	 | '*.jpg' | file2.jpg        |
+	 | '*.jpg' | file3.jpg        |
 		
 	Scenario Outline: render a simple template with multiple globs to the console
 		Given a file named "simple.mustache" with:
@@ -44,21 +44,23 @@ Feature: Create a Manifest
 		Then the output should contain "<results>"
 		
 		Scenarios: single globs
-		| globs   | results         | 
-		| '*.*'   | file1.txt file2 | 
-		| '*.*'   | group1 (*.*)    | 
-		| '*.png' | file4           | 
-		| '*.png' | (*.png)         | 
-		| '*.jpg' | file2.jpg       | 
-		| '*.jpg' | file3.jpg       | 
+	 | globs   | results         |
+	 | '*.*'   | file1.txt file2 |
+	 | '*.*'   | group1 (*.*)    |
+	 | '*.png' | file4           |
+	 | '*.png' | (*.png)         |
+	 | '*.jpg' | file2.jpg       |
+	 | '*.jpg' | file3.jpg       |
 		
 		Scenarios: multiple globs
-		| globs         | results   | 
-		| '*.*' '*.png' | group1    | 
-		| '*.*' '*.png' | group2    | 
-		| '*.*' '*.png' | file1.txt | 
-		| '*.*' '*.png' | file4.png | 
+	 | globs         | results   |
+	 | '*.*' '*.png' | group1    |
+	 | '*.*' '*.png' | group2    |
+	 | '*.*' '*.png' | file1.txt |
+	 | '*.*' '*.png' | file4.png |
 		
+	
+	
 	Scenario: render arbitrary properties
 		Given a file named "simple.mustache" with:
 		"""
@@ -71,5 +73,39 @@ Feature: Create a Manifest
 		When I run `manifesto -m simple.mustache --properties "{ group_id: '1234' }" '*.*'`
 		Then the output should contain "1234"
 		
+	Scenario Outline: URI escape any file paths
+	  Given a file named "simple.mustache" with:
+		"""
+		Matched Groups:
+		{{#groups}}
+		{{name}} ({{path}}): 
+		Escaped
+			{{#files}}
+				{{.}}
+			{{/files}}
+		Raw
+			{{#files_raw}}
+				{{.}}
+			{{/files_raw}}
+		{{/groups}}
+		"""
+		And some empty files path/file1.txt path/file2.jpg
+		When I run `manifesto --template simple.mustache "**/*.*"`
+		Then the output should contain "<results>"
 		
-
+		Scenarios: Escaped paths
+	 | results          |
+	 | path%2Ffile1.txt |
+	 | path%2Ffile2.jpg |
+	
+		Scenarios: Raw paths
+	 | results        |
+	 | path/file1.txt |
+	 | path/file2.jpg |
+	
+		
+	
+	
+	
+		
+		

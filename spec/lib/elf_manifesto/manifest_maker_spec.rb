@@ -5,6 +5,8 @@ require 'mustache'
 all_files = ['file1.txt', 'file2.', 'file3.txt', 'image1.jpg', 'image2.jpg']
 image_files = ['image1.jpg', 'image2.jpg']
 txt_files = ['file1.txt', 'file2.', 'file3.txt']
+deep_files = ['path/image1.jpg', 'path/image2.jpg']
+deep_files_escaped = ['path%2Fimage1.jpg', 'path%2Fimage2.jpg']
 
 describe "Creating a manifest." do
 	before(:each) do
@@ -50,6 +52,20 @@ describe "Creating a manifest." do
 				manifesto.file_groups[:group1][:files].should eq all_files
 				manifesto.file_groups[:group2][:files].should eq image_files
 				manifesto.file_groups[:group3][:files].should eq txt_files
+			end
+			
+			it "should URI escape any paths" do
+				Dir.should_receive(:glob).with('**/*.jpg').and_return(deep_files)
+				mock_input_file_read "duff.template", simple_template()			  
+				
+				ops = {
+					template: 'duff.template',
+					globs: ['**/*.jpg']
+				}
+				
+				manifesto = ElfManifesto::ManifestMaker.new(ops)
+				manifesto.file_groups[:group1][:files].should eq deep_files_escaped
+				manifesto.file_groups[:group1][:files_raw].should eq deep_files
 			end
 			
 			describe "gathering information about the groups" do

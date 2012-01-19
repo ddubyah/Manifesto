@@ -2,7 +2,7 @@
   "Cucumber Features": {
     "coverage": {
     },
-    "timestamp": 1324641347
+    "timestamp": 1326990538
   },
   "RSpec": {
     "coverage": {
@@ -72,8 +72,17 @@
         null,
         null,
         null
+      ],
+      "/Users/wallace/wip/Workspace/Elf_Manifesto/spec/team_city_spec.rb": [
+        1,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null
       ]
     },
-    "timestamp": 1324641299
+    "timestamp": 1326991318
   }
 }

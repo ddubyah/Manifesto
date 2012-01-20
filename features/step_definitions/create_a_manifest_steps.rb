@@ -1,5 +1,6 @@
 Given /^Manifesto is not yet running$/ do
   # pending # express the regexp above with the code you wish you had
+	puts "Environment Path is: #{ENV['PATH']}"
 end
 
 Given /^some empty files(\s.+)$/ do |arg|

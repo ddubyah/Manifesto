@@ -9,5 +9,5 @@ end
 require 'aruba/cucumber'
 require 'cucumber/rspec/doubles'
 
-# Add the bin directory to aruba's executable path
-ENV['PATH'] = "#{File.expand_path(File.dirname(__FILE__) + '/../../bin')}#{File::PATH_SEPARATOR}#{ENV['PATH']}"
+# Add the bin directory to aruba's executable path - not needed since v0.4.11
+# ENV['PATH'] = "#{File.expand_path(File.dirname(__FILE__) + '/../../bin')}#{File::PATH_SEPARATOR}#{ENV['PATH']}"

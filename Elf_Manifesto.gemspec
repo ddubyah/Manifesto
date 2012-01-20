@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "aruba", "~> 0.4.11"
   s.add_development_dependency 'simplecov', '>= 0.4.0'
 
+
 	if RUBY_PLATFORM.downcase.include?("darwin")		
 		s.add_development_dependency "guard-rspec"  
 	  s.add_development_dependency "growl"

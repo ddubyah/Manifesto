@@ -1,3 +1,4 @@
+@announce-dir
 Feature: Create a Manifest
 
   As a User

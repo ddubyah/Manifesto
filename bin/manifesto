@@ -2,8 +2,8 @@
 
 require 'rubygems'
 require 'commander/import'
-require 'elf_manifesto'
-require 'elf_manifesto/manifest_maker'
+require 'elf_manifesto.rb'
+require 'elf_manifesto/manifest_maker.rb'
 require 'ostruct'
 
 program :version, ElfManifesto::VERSION
